@@ -12,6 +12,8 @@ function CreateActivity() {
     const [locationList, setLocationList] = useState([]);
     const [equipment, setEquipment] = useState(0);
     const [equipmentList, setEquipmentList] = useState([]);
+    sessionStorage.setItem("userID", 6422782555);
+    const hostID = sessionStorage.getItem("userID");
 
 
     const handleCategoryClick = (event) => {
@@ -25,12 +27,16 @@ function CreateActivity() {
         capacity: capacity,
         description: description,
         location: location,
-        equipment: equipment
+        equipment: equipment,
+        hostID: hostID
     }
+
 
     const addActivity = () => {
         try {
             Axios.post('http://localhost:3001/create-activity', data_body);
+            Axios.patch('http://localhost:3001/location/reserve', { roomID: location });
+            Axios.patch('http://localhost:3001/equipment/reserve', { code: equipment });
             console.log("Create activity succesfully!")
         } catch (error) {
             console.log(error)
@@ -39,13 +45,18 @@ function CreateActivity() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addActivity();
-        setName("");
-        setCategory("");
-        setCapacity(2);
-        setDescription("");
-        setLocation(0);
-        setEquipment(0);
+
+        if (!name || !category || !capacity || !location || !equipment) {
+            alert("Please complete all required fields.");
+        } else {
+            addActivity();
+            setName("");
+            setCategory("");
+            setCapacity(2);
+            setDescription("");
+            setLocation(0);
+            setEquipment(0);
+        }
     }
 
     useEffect(() => {
@@ -138,25 +149,25 @@ function CreateActivity() {
                         <label>Activity's Name</label>
                         <input type='text' name='act-name'
                             value={name} placeholder="More creative name, more people are interested !"
-                            onChange={(event) => setName(event.target.value)}></input>
+                            onChange={(event) => setName(event.target.value)} required></input>
                     </div>
 
                     <div>
                         <label>Description</label>
                         <textarea name='act-desc' value={description}
                             placeholder="Tell them what you are going to do ..."
-                            onChange={(event) => setDescription(event.target.value)}></textarea>
+                            onChange={(event) => setDescription(event.target.value)} required></textarea>
                     </div>
 
                     <div className='inline'>
                         <label >Maximum no. of participants</label>
                         <input type='number' name="capacity" min="2" max="30" value={capacity}
-                            onChange={(event) => setCapacity(event.target.value)}></input>
+                            onChange={(event) => setCapacity(event.target.value)} required></input>
                     </div>
 
                     <div>
                         <label>Location</label>
-                        <select name='location' onChange={handleLocationChange} value={location}>
+                        <select name='location' onChange={handleLocationChange} value={location} required>
                             <option>Select location</option>
                             {locationList.map((val, key) => {
                                 return (
@@ -169,7 +180,7 @@ function CreateActivity() {
 
                     <div>
                         <label>Equipment</label>
-                        <select name='equipment' onChange={handleEquipmentChange} value={equipment}>
+                        <select name='equipment' onChange={handleEquipmentChange} value={equipment} required>
                             <option>Select equipment</option>
                             {equipmentList.map((val, key) => {
                                 return (

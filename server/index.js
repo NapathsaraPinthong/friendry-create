@@ -25,12 +25,12 @@ db.connect((err) => {
 })
 
 app.post('/create-activity', async (req, res) => {
-    const { name, category, capacity, description, location, equipment } = req.body;
+    const { name, category, capacity, description, location, equipment, hostID } = req.body;
 
     try {
         db.query(
-            "INSERT INTO activity (name, category, capacity, description, location, equipment) VALUES(?,?,?,?,?,?)",
-            [name, category, capacity, description, location, equipment],
+            "INSERT INTO activity (name, category, capacity, description, location, equipment, hostID) VALUES(?,?,?,?,?,?,?)",
+            [name, category, capacity, description, location, equipment, hostID],
             (err, results, fields) => {
                 if (err) {
                     console.error('Error while inserting a user into the database', err);
@@ -80,7 +80,46 @@ app.get("/equipments", async (req, res) => {
         console.log(err);
         return res.status(500).send();
     }
-})
+});
+
+
+app.patch("/location/reserve", async (req, res) => {
+    const roomID = req.body.roomID;
+    try {
+        db.query(
+            "UPDATE location SET status = 'unavailable' WHERE roomID = ?", [roomID],
+            (err, results, feilds) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(400).send();
+                }
+                res.status(200).json({ message: "location has reserved succesfully" });
+            }
+        )
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send();
+    }
+});
+
+app.patch("/equipment/reserve", async (req, res) => {
+    const code = req.body.code;
+    try {
+        db.query(
+            "UPDATE equipment SET quantity = quantity-1 WHERE code = ?", [code],
+            (err, results, feilds) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(400).send();
+                }
+                res.status(200).json({ message: "equipment has reserved succesfully" });
+            }
+        )
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send();
+    }
+});
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');
