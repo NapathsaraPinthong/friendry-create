@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '../style/CreateActivity.css';
 import Axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function CreateActivity() {
+
+    const navigate = useNavigate();
 
     const [name, setName] = useState("");
     const [category, setCategory] = useState("");
@@ -12,9 +15,8 @@ function CreateActivity() {
     const [locationList, setLocationList] = useState([]);
     const [equipment, setEquipment] = useState(0);
     const [equipmentList, setEquipmentList] = useState([]);
-    sessionStorage.setItem("userID", 6422782555);
-    const hostID = sessionStorage.getItem("userID");
 
+    const hostID = sessionStorage.getItem("userID");
 
     const handleCategoryClick = (event) => {
         event.preventDefault()
@@ -37,7 +39,10 @@ function CreateActivity() {
             Axios.post('http://localhost:3001/create-activity', data_body);
             Axios.patch('http://localhost:3001/location/reserve', { roomID: location });
             Axios.patch('http://localhost:3001/equipment/reserve', { code: equipment });
-            console.log("Create activity succesfully!")
+            console.log("Create activity succesfully!");
+
+            navigate('/host');
+
         } catch (error) {
             console.log(error)
         }
