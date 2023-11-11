@@ -147,6 +147,28 @@ app.get("/host/activity/:id", async (req, res) => {
 });
 
 
+app.get("/host/group/:id", async (req, res) => {
+
+    const hostID = req.params.id;
+
+    try {
+        db.query(
+            "SELECT u.fname, u.lname FROM user u JOIN activitygroup ag ON u.studentID = ag.studentID JOIN activity a ON a.activityID = ag.activityID WHERE a.hostID = ?", [hostID],
+            (err, results, feilds) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(400).send();
+                }
+                res.status(200).json(results);
+            }
+        )
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send();
+    }
+});
+
+
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import Axios from 'axios';
 import '../style/HostManage.css'
+import pic from '../asset/userpic.svg'
 
 function HostManage() {
 
     const hostID = sessionStorage.getItem("userID");
     const [activity, setActivity] = useState([]);
+    const [members, setMembers] = useState([]);
 
     useEffect(() => {
         fetchData();
@@ -13,8 +15,10 @@ function HostManage() {
 
     const fetchData = async () => {
         try {
-            const response = await Axios.get(`http://localhost:3001/host/activity/${hostID}`);
-            setActivity(response.data[0]);
+            const activity_response = await Axios.get(`http://localhost:3001/host/activity/${hostID}`);
+            setActivity(activity_response.data[0]);
+            const member_response = await Axios.get(`http://localhost:3001/host/group/${hostID}`);
+            setMembers(member_response.data);
 
         } catch (error) {
             console.log(error);
@@ -42,9 +46,17 @@ function HostManage() {
                     <div className='group-inline'>
                         <h4>Member list</h4>
                         <div className='capacity'>
-                            <span className='bold'>{7}</span>/
+                            <span className='bold'>{members.length}</span>/
                             <span>{activity.capacity}</span>
                         </div>
+                    </div>
+
+                    <div className='member-con'>
+                        {members.map((val, key) => {
+                            return (
+                                <div key={key}><img src={pic} width="25"/>{val.fname} {val.lname}</div>
+                            )
+                        })}
                     </div>
                 </div>
             </div>
