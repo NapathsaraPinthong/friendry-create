@@ -1,0 +1,61 @@
+.reciept {
+    background-color: #fff;
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    box-shadow: 1px 2px 5px #6CE5E8;
+}
+
+.top-inline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-inline h3 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.top-inline span {
+    background-color: #188487;
+    color: #fff;
+    padding: 0.3rem 0.5rem;
+    border-radius: 5px;
+    font-size: 0.8rem;
+}
+
+.activity-detail p {
+    margin: 0.9rem 0;
+}
+
+
+.bottom-inline {
+    display: flex;
+    justify-content: space-between;
+    color: #7B7979;
+    font-size: 14px;
+    margin-bottom: 1rem;
+}
+
+.reciept hr {
+    border: 1.5px solid #6CE5E8;
+    border-radius: 15px;
+}
+
+.group-inline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    color: #7B7979;
+}
+
+.group-inline h4 {
+    margin: 0;
+    color: #454545;
+}
+
+.capacity .bold {
+    font-weight: 800;
+    color: #454545;
+}

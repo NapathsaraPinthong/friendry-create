@@ -131,50 +131,7 @@ app.get("/host/activity/:id", async (req, res) => {
 
     try {
         db.query(
-            "SELECT * FROM activity WHERE hostID = ?", [hostID],
-            (err, results, feilds) => {
-                if (err) {
-                    console.log(err);
-                    return res.status(400).send();
-                }
-                res.status(200).json(results);
-            }
-        )
-    } catch (err) {
-        console.log(err);
-        return res.status(500).send();
-    }
-});
-
-app.get("/location/:id", async (req, res) => {
-
-    const roomID = req.params.id;
-
-    try {
-        db.query(
-            "SELECT name, address FROM location WHERE roomID = ?", [roomID],
-            (err, results, feilds) => {
-                if (err) {
-                    console.log(err);
-                    return res.status(400).send();
-                }
-                res.status(200).json(results);
-            }
-        )
-    } catch (err) {
-        console.log(err);
-        return res.status(500).send();
-    }
-});
-
-
-app.get("/host/all/:id", async (req, res) => {
-
-    const hostID = req.params.id;
-
-    try {
-        db.query(
-            "SELECT a.name, a.description, a.category, a.capacity, l.name as room, l.address FROM activity a JOIN location l ON a.location = l.roomID WHERE a.hostID = ?", [hostID],
+            "SELECT a.activityID, a.name, a.description, a.category, a.capacity, l.name as room, l.address, e.name as equipment FROM activity a JOIN location l ON a.location = l.roomID JOIN equipment e ON a.equipment = e.code WHERE a.hostID = ?", [hostID],
             (err, results, feilds) => {
                 if (err) {
                     console.log(err);

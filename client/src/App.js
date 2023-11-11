@@ -22,10 +22,10 @@ function App() {
                 <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/create">Create Activity</Link>
+                <Link to="/create">Create</Link>
               </li>
               <li>
-                <Link to="/host">My Group</Link>
+                <Link to="/host">Group</Link>
               </li>
             </ul>
           </nav>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Axios from 'axios';
+import '../style/HostManage.css'
 
 function HostManage() {
 
@@ -12,7 +13,7 @@ function HostManage() {
 
     const fetchData = async () => {
         try {
-            const response = await Axios.get(`http://localhost:3001/host/all/${hostID}`);
+            const response = await Axios.get(`http://localhost:3001/host/activity/${hostID}`);
             setActivity(response.data[0]);
 
         } catch (error) {
@@ -23,19 +24,28 @@ function HostManage() {
     return (
         <div className='container'>
             <h1>My Group</h1>
-            <div className='activity-detail'>
-                <h3>{activity.name}</h3>
-                <p>{activity.description}</p>
-                <div>
-                    <span>{activity.category}</span>
-                    <span>{activity.room}{activity.address}</span>
+            <div className='reciept'>
+                <div className='activity-detail'>
+                    <div className='top-inline'>
+                        <h3>{activity.name}</h3>
+                        <span>{activity.category}</span>
+                    </div>
+                    <p>{activity.description}</p>
+                    <div className='bottom-inline'>
+                        <span>{activity.room} | {activity.address}</span>
+                        <span>{activity.equipment}</span>
+
+                    </div>
                 </div>
-            </div>
-            <hr />
-            <div className='group-detail'>
-                <h5>Member list</h5>
-                <div className='capacity'>
-                    <span>{activity.capacity}</span>
+                <hr />
+                <div className='group-detail'>
+                    <div className='group-inline'>
+                        <h4>Member list</h4>
+                        <div className='capacity'>
+                            <span className='bold'>{7}</span>/
+                            <span>{activity.capacity}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
