@@ -168,7 +168,25 @@ app.get("/host/group/:id", async (req, res) => {
     }
 });
 
+//Host Page
+app.get("/hosts", async (req, res) => {
 
+    try {
+        db.query(
+            "SELECT hostID FROM activity",
+            (err, results, feilds) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(400).send();
+                }
+                res.status(200).json(results);
+            }
+        )
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send();
+    }
+});
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');

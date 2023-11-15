@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import CreateActivity from './components/CreateActivity';
 import HostManage from './components/HostManage';
 import logo from './asset/logo.png';
+import HostPage from './pages/HostPage';
 
 function App() {
 
@@ -22,10 +23,7 @@ function App() {
                 <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/create">Create</Link>
-              </li>
-              <li>
-                <Link to="/host">Group</Link>
+                <Link to="/host">Host</Link>
               </li>
             </ul>
           </nav>
@@ -33,7 +31,8 @@ function App() {
 
         <Routes>
           <Route path='/create' element={<CreateActivity />} />
-          <Route path='/host' element={<HostManage />} />
+          <Route path='/group' element={<HostManage />} />
+          <Route path='/host' element={<HostPage />} />
         </Routes>
 
       </BrowserRouter>

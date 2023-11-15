@@ -54,7 +54,7 @@ function HostManage() {
                     <div className='member-con'>
                         {members.map((val, key) => {
                             return (
-                                <div key={key}><img src={pic} width="25"/>{val.fname} {val.lname}</div>
+                                <div key={key}><img src={pic} width="25" />{val.fname} {val.lname}</div>
                             )
                         })}
                     </div>
