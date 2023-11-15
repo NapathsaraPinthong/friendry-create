@@ -73,3 +73,37 @@
     align-items: center;
     gap: 6px;
 }
+
+.btn-div {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 2.2rem;
+}
+
+.btn-div button {
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    padding: 0.5rem 3rem;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.btn-blue {
+    background-color: #6CE5E8;
+}
+
+.btn-blue:active {
+    background-color: #4aacad;
+}
+
+.btn-red {
+    background-color: #E74B5B;
+}
+
+.btn-red:active {
+    background-color: #b33f4a;
+}

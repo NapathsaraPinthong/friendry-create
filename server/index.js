@@ -48,6 +48,33 @@ app.post('/create-activity', async (req, res) => {
     }
 });
 
+app.delete('/delete-activity/:activityID', async (req, res) => {
+    const activityID = req.params.activityID;
+
+    try {
+        db.query(
+            "DELETE FROM activity WHERE activityID = ?",
+            [activityID],
+            (err, results, fields) => {
+                if (err) {
+                    console.error('Error while deleting activity from the database', err);
+                    return res.status(400).send();
+                }
+                if(results.affectedRows === 0) {
+                    return res.status(404).json({ message: "No activity with that ID" });
+                }
+                else {
+                    return res.status(200).json({ message: "Activity deleted successfully" });
+                }
+            }
+        );
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send();
+    }
+});
+
+
 app.get("/locations", async (req, res) => {
     try {
         db.query(
@@ -104,6 +131,26 @@ app.patch("/location/reserve", async (req, res) => {
     }
 });
 
+
+app.patch("/location/cancel", async (req, res) => {
+    const roomID = req.body.roomID;
+    try {
+        db.query(
+            "UPDATE location SET status = 'available' WHERE roomID = ?", [roomID],
+            (err, results, feilds) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(400).send();
+                }
+                res.status(200).json({ message: "location has cancel succesfully" });
+            }
+        )
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send();
+    }
+});
+
 app.patch("/equipment/reserve", async (req, res) => {
     const code = req.body.code;
     try {
@@ -124,6 +171,26 @@ app.patch("/equipment/reserve", async (req, res) => {
 });
 
 
+app.patch("/equipment/cancel", async (req, res) => {
+    const code = req.body.code;
+    try {
+        db.query(
+            "UPDATE equipment SET quantity = quantity+1 WHERE code = ?", [code],
+            (err, results, feilds) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(400).send();
+                }
+                res.status(200).json({ message: "equipment has cancel succesfully" });
+            }
+        )
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send();
+    }
+});
+
+
 //Host Management page
 app.get("/host/activity/:id", async (req, res) => {
 
@@ -131,7 +198,7 @@ app.get("/host/activity/:id", async (req, res) => {
 
     try {
         db.query(
-            "SELECT a.activityID, a.name, a.description, a.category, a.capacity, l.name as room, l.address, e.name as equipment FROM activity a JOIN location l ON a.location = l.roomID JOIN equipment e ON a.equipment = e.code WHERE a.hostID = ?", [hostID],
+            "SELECT a.activityID, a.name, a.description, a.category, a.capacity, l.roomID, l.name as room, l.address, e.code, e.name as equipment FROM activity a JOIN location l ON a.location = l.roomID JOIN equipment e ON a.equipment = e.code WHERE a.hostID = ?", [hostID],
             (err, results, feilds) => {
                 if (err) {
                     console.log(err);

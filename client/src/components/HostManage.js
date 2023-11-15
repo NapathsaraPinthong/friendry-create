@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react'
 import Axios from 'axios';
 import '../style/HostManage.css'
 import pic from '../asset/userpic.svg'
+import { useNavigate } from 'react-router-dom';
+
 
 function HostManage() {
 
     const hostID = sessionStorage.getItem("userID");
     const [activity, setActivity] = useState([]);
     const [members, setMembers] = useState([]);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         fetchData();
@@ -24,6 +28,25 @@ function HostManage() {
             console.log(error);
         }
     };
+
+    const handleDelete = async () => {
+        try {
+            const response = await Axios.delete(`http://localhost:3001/delete-activity/${activity.activityID}`);
+            if (response.status === 200) {
+                console.log('Activity deleted successfully!');
+                await Axios.patch('http://localhost:3001/location/cancel', { roomID: activity.roomID });
+                await Axios.patch('http://localhost:3001/equipment/cancel', { code: activity.code });
+                console.log('Room and Equipment cancelled successfully!');
+                navigate('/create');
+
+            } else {
+                console.error('Failed to delete activity');
+            }
+        } catch (error) {
+            console.error('Error while deleting activity:', error);
+        }
+    };
+
 
     return (
         <div className='container'>
@@ -59,6 +82,10 @@ function HostManage() {
                         })}
                     </div>
                 </div>
+            </div>
+            <div className='btn-div'>
+                <button className='btn-blue'>Edit</button>
+                <button className='btn-red' onClick={handleDelete}>End</button>
             </div>
         </div>
     )

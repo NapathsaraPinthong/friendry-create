@@ -20,7 +20,7 @@ button {
 }
 
 .header nav {
-    width: 250px;
+    width: fit-content;
 }
 
 .header nav ul {
@@ -28,6 +28,7 @@ button {
     display: flex;
     justify-content: space-between;
     list-style: none;
+    gap: 3rem;
 }
 
 .header nav ul li a{
