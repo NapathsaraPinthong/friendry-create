@@ -35,7 +35,7 @@ app.post('/create-activity', async (req, res) => {
             [name, category, capacity, description, location, equipment, hostID],
             (err, results, fields) => {
                 if (err) {
-                    console.error('Error while inserting a user into the database', err);
+                    console.error('Error while inserting a activity into the database', err);
                     return res.status(400).send();
                 } else {
                     return res.status(201).json({ message: "New activity succesfully created" })
@@ -68,6 +68,29 @@ app.delete('/delete-activity/:activityID', async (req, res) => {
                 }
             }
         );
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send();
+    }
+});
+
+app.patch('/update-activity/:activityID', async (req, res) => {
+    const activityID = req.params.activityID;
+    const { name, category, capacity, description, location, equipment } = req.body;
+
+    try {
+        db.query(
+            "UPDATE activity SET name = ?, category = ?, capacity = ?, description = ?, location = ?, equipment= ? WHERE activityID = ?",
+            [name, category, capacity, description, location, equipment, activityID],
+            (err, results, fields) => {
+                if (err) {
+                    console.error('Error while updating activity', err);
+                    return res.status(400).send();
+                } else {
+                    return res.status(201).json({ message: "Activity succesfully updated" })
+                }
+            }
+        )
     } catch (err) {
         console.log(err);
         return res.status(500).send();
@@ -131,7 +154,6 @@ app.patch("/location/reserve", async (req, res) => {
     }
 });
 
-
 app.patch("/location/cancel", async (req, res) => {
     const roomID = req.body.roomID;
     try {
@@ -169,7 +191,6 @@ app.patch("/equipment/reserve", async (req, res) => {
         return res.status(500).send();
     }
 });
-
 
 app.patch("/equipment/cancel", async (req, res) => {
     const code = req.body.code;
@@ -213,7 +234,6 @@ app.get("/host/activity/:id", async (req, res) => {
     }
 });
 
-
 app.get("/host/group/:id", async (req, res) => {
 
     const hostID = req.params.id;
@@ -254,6 +274,8 @@ app.get("/hosts", async (req, res) => {
         return res.status(500).send();
     }
 });
+
+
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');

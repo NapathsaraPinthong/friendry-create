@@ -37,7 +37,7 @@ function HostManage() {
                 await Axios.patch('http://localhost:3001/location/cancel', { roomID: activity.roomID });
                 await Axios.patch('http://localhost:3001/equipment/cancel', { code: activity.code });
                 console.log('Room and Equipment cancelled successfully!');
-                navigate('/create');
+                navigate('/');
 
             } else {
                 console.error('Failed to delete activity');
@@ -83,8 +83,9 @@ function HostManage() {
                     </div>
                 </div>
             </div>
+            <div className='details'>*Only one activity can be created at a time*</div>
             <div className='btn-div'>
-                <button className='btn-blue'>Edit</button>
+                <button className='btn-blue' onClick={()=>{navigate('/edit')}}>Edit</button>
                 <button className='btn-red' onClick={handleDelete}>End</button>
             </div>
         </div>

@@ -17,7 +17,7 @@ function HostPage() {
             const hostsData = response.data.map((val) => val.hostID);
 
             if (userID && hostsData.includes(Number(userID))) {
-                setRedirect('/group');
+                setRedirect('/manage');
             } else {
                 setRedirect('/create');
             }

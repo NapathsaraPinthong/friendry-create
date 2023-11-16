@@ -4,6 +4,7 @@ import CreateActivity from './components/CreateActivity';
 import HostManage from './components/HostManage';
 import logo from './asset/logo.png';
 import HostPage from './pages/HostPage';
+import EditActivity from './components/EditActivity';
 
 function App() {
 
@@ -23,7 +24,7 @@ function App() {
                 <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/host">Host</Link>
+                <Link to="/host">Create activity</Link>
               </li>
             </ul>
           </nav>
@@ -31,8 +32,9 @@ function App() {
 
         <Routes>
           <Route path='/create' element={<CreateActivity />} />
-          <Route path='/group' element={<HostManage />} />
+          <Route path='/manage' element={<HostManage />} />
           <Route path='/host' element={<HostPage />} />
+          <Route path='/edit' element={<EditActivity />} />
         </Routes>
 
       </BrowserRouter>

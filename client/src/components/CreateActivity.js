@@ -71,7 +71,7 @@ function CreateActivity() {
             Axios.patch('http://localhost:3001/equipment/reserve', { code: equipment });
             console.log("Create activity succesfully!");
 
-            navigate('/group');
+            navigate('/manage');
 
         } catch (error) {
             console.log(error)
@@ -95,7 +95,7 @@ function CreateActivity() {
     }
 
     if (hostID && hosts.includes(Number(hostID))) {
-            navigate('/group');
+        navigate('/group');
     } else {
         return (
             <div className='container'>

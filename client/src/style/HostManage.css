@@ -107,3 +107,11 @@
 .btn-red:active {
     background-color: #b33f4a;
 }
+
+.details {
+    font-size: 14px;
+    color: #7B7979;
+    text-align: center;
+    margin-top: 1rem;
+    font-style: italic;
+}
