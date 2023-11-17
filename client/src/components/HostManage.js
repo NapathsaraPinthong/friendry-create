@@ -85,7 +85,7 @@ function HostManage() {
             </div>
             <div className='details'>*Only one activity can be created at a time*</div>
             <div className='btn-div'>
-                <button className='btn-blue' onClick={()=>{navigate('/edit')}}>Edit</button>
+                <button className='btn-blue' onClick={() => { navigate('/edit') }}>Edit</button>
                 <button className='btn-red' onClick={handleDelete}>End</button>
             </div>
         </div>

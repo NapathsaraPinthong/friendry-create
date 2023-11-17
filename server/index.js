@@ -60,7 +60,7 @@ app.delete('/delete-activity/:activityID', async (req, res) => {
                     console.error('Error while deleting activity from the database', err);
                     return res.status(400).send();
                 }
-                if(results.affectedRows === 0) {
+                if (results.affectedRows === 0) {
                     return res.status(404).json({ message: "No activity with that ID" });
                 }
                 else {

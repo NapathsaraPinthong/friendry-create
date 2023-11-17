@@ -18,7 +18,6 @@ function EditActivity() {
     const [locationList, setLocationList] = useState([]);
     const [equipmentList, setEquipmentList] = useState([]);
 
-
     useEffect(() => {
         fetchData();
     }, []);
@@ -38,7 +37,6 @@ function EditActivity() {
             setOldEquipment(activityData.code);
 
             await Axios.patch('http://localhost:3001/location/cancel', { roomID: activityData.roomID });
-            await Axios.patch('http://localhost:3001/equipment/cancel', { code: activityData.code });
             const locationResponse = await Axios.get('http://localhost:3001/locations');
             const equipmentResponse = await Axios.get('http://localhost:3001/equipments');
 
@@ -80,6 +78,7 @@ function EditActivity() {
 
         try {
             await Axios.patch(`http://localhost:3001/update-activity/${activityID}`, dataBody);
+            await Axios.patch('http://localhost:3001/equipment/cancel', { code: oldEquipment });
             await Axios.patch('http://localhost:3001/location/reserve', { roomID: location });
             await Axios.patch('http://localhost:3001/equipment/reserve', { code: equipment });
             console.log('Activity updated successfully!');
@@ -91,7 +90,6 @@ function EditActivity() {
 
     const handleCancel = async () => {
         await Axios.patch('http://localhost:3001/location/reserve', { roomID: oldLocation });
-        await Axios.patch('http://localhost:3001/equipment/reserve', { code: oldEquipment });
         navigate('/manage');
     }
 
